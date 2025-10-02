@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 project ("EncounterMaster" C CXX)
 
 # Add source to this project's executable.
-add_executable (EncounterMaster "EncounterMaster.cpp" )
+add_executable (EncounterMaster "EncounterMaster.cpp" "imgui/imgui.cpp" "imgui/imgui_draw.cpp" "imgui/imgui_demo.cpp" "imgui/imgui_tables.cpp" "imgui/imgui_widgets.cpp" "imgui/backends/imgui_impl_sdlrenderer3.cpp" "imgui/backends/imgui_impl_sdl3.cpp")
 
 # VCPKG configuration (wouldn't work without manually setting it sorry)
 set(CMAKE_TOOLCHAIN_FILE "E:/vcpkg/scripts/buildsystems/vcpkg.cmake")
