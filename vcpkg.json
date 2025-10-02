@@ -1,0 +1,6 @@
+{
+  "name": "encountermaster",
+  "dependencies": [
+    "sdl3"
+  ]
+}
