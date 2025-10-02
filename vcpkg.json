@@ -1,6 +1,8 @@
 {
   "name": "encountermaster",
   "dependencies": [
-    "sdl3"
+    "sdl3",
+    "curl",
+    "nlohmann-json"
   ]
 }
