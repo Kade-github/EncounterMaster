@@ -13,6 +13,9 @@ A D&D 5e encounter manager with creature editing, and sharing.
 - Create, edit, and delete creatures with stats, abilities, and actions.
 - Save and load encounters with multiple creatures.
 
+## Gallery
+<img width="5120" height="2725" alt="image" src="https://github.com/user-attachments/assets/f741ff6b-2bcd-4c72-9e54-d25c7dd1608b" />
+
 ## Download
 You can download the latest release of EncounterMaster from the [Releases](https://github.com/Kade-github/EncounterMaster/releases/latest) page.
 
