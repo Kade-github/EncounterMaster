@@ -31,14 +31,17 @@ jobs:
             c_compiler: cl
             cpp_compiler: cl
             generator: "Visual Studio 17 2022"
+            triplet: "x64-windows"
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
             generator: "Unix Makefiles"
+            triplet: "x64-linux"
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
             generator: "Ninja"
+            triplet: "arm64-osx"
         exclude:
           - os: windows-latest
             c_compiler: clang
@@ -57,7 +60,6 @@ jobs:
         sudo apt-get install -y build-essential cmake make pkg-config 
         sudo apt-get install -y libgl1-mesa-dev libx11-dev
         sudo apt-get install -y autoconf automake libtool gettext
-        sudo apt-get install -y libsdl3-dev libsdl3-image-dev
         sudo apt-get install -y libcrypt-dev
 
     - name: Set reusable strings
@@ -72,7 +74,7 @@ jobs:
       uses: lukka/run-vcpkg@v11
       with:
         # Optional: specify the vcpkg arguments, e.g. to specify the triplet or use a custom vcpkg repository.
-        vcpkgArguments: '@vcpkg.json'
+        vcpkgArguments: '@vcpkg.json --triplet=${{ matrix.triplet }}'
     - name: Submodule update
       run: git submodule update --init --recursive
       
