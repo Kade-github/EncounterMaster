@@ -13,6 +13,7 @@ CURLM* multi_handle = curl_multi_init();
 FILE* file = nullptr;
 
 std::vector<std::string> urls_to_download;
+std::string last_url = "";
 
 std::function<void()> download_callback = nullptr;
 
@@ -85,7 +86,8 @@ void downloadCreatures(std::function<void()> callback) {
     return;
   }
 
-  downloadList(urls_to_download.back());
+  last_url = urls_to_download.back();
+  downloadList(last_url);
   urls_to_download.pop_back();
   curl_multi_add_handle(multi_handle, easy_handle);
 }
@@ -110,6 +112,8 @@ curlStatus downloadCallbacks() {
   }
 
   if (!still_running) {
+    SDL_Log("Downloaded %s", last_url.c_str());
+
     if (file) {
       fclose(file);
       file = nullptr;
@@ -117,8 +121,10 @@ curlStatus downloadCallbacks() {
 
     if (!urls_to_download.empty()) {
       // Start next download
-      downloadList(urls_to_download.back());
+      last_url = urls_to_download.back();
+      downloadList(last_url);
       urls_to_download.pop_back();
+      SDL_Log("Starting next download, %zu remaining", urls_to_download.size());
       return status;
     }
 

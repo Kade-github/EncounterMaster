@@ -1,5 +1,6 @@
 ﻿#define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
+#include <SDL3_image/SDL_image.h>
 #include <curl/curl.h>
 
 #include <filesystem>
@@ -9,8 +10,6 @@
 #include "imgui/backends/imgui_impl_sdlrenderer3.h"
 
 #include "Menu.h"
-#include "Download.h"
-
 
 bool doCreaturesExist()
 {
@@ -44,6 +43,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
   curl_global_init(CURL_GLOBAL_DEFAULT);
 
   ToolState* state = new ToolState;
+  state->encounter_planner = true;
+  state->encounter_battler = false;
   if (!state) {
     SDL_Log("Failed to allocate ToolState");
     return SDL_APP_FAILURE;
@@ -101,6 +102,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
     {
       state->should_download_creatures = true;
     }
+  } else {
+    SDL_Log("Creature data not found, will prompt to download.");
   }
 
   return SDL_APP_CONTINUE;
@@ -120,7 +123,10 @@ void downloadCreaturesMenu(ToolState* state)
 { 
   if (!state->is_downloading_creatures)
   {
-    ImGui::Begin("Creatures Missing", nullptr, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::Begin("Creatures Missing", nullptr,
+                 ImGuiWindowFlags_NoDocking |
+                     ImGuiWindowFlags_AlwaysAutoResize |
+                     ImGuiWindowFlags_NoCollapse);
     ImGui::Text("Creature data is missing. Would you like to download it?");
     if (ImGui::Button("Download Creatures"))
     {
@@ -142,7 +148,8 @@ void downloadCreaturesMenu(ToolState* state)
 
   curlStatus status = downloadCallbacks();
   ImGui::Begin("Downloading Creatures", nullptr,
-               ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDocking);
+               ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDocking |
+                   ImGuiWindowFlags_NoCollapse);
   ImGui::Text("Downloading creature data...");
   ImGui::ProgressBar((float)status.downloaded / (float)status.total,
                      ImVec2(300, 0));
@@ -168,6 +175,8 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
       downloadCreaturesMenu(state);
 
   if (state->show_error_popup) {
+    ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(),
+                            ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
     ImGui::OpenPopup("error");
     state->show_error_popup = false;
   }

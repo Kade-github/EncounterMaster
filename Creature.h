@@ -7,6 +7,8 @@
 #include <regex>
 #include <stdexcept>
 
+using json = nlohmann::json;
+
 class CreatureElement {
  public:
   CreatureElement() = default;
@@ -172,13 +174,51 @@ class CreatureElement {
   void set_reactions(std::optional<std::string> value) {
     this->reactions = value;
   }
+
+  json to_json()
+  {
+    json j;
+    if (name) j["name"] = *name;
+    if (meta) j["meta"] = *meta;
+    if (armor_class) j["Armor Class"] = *armor_class;
+    if (hit_points) j["Hit Points"] = *hit_points;
+    if (speed) j["Speed"] = *speed;
+    if (str) j["STR"] = *str;
+    if (str_mod) j["STR_mod"] = *str_mod;
+    if (dex) j["DEX"] = *dex;
+    if (dex_mod) j["DEX_mod"] = *dex_mod;
+    if (con) j["CON"] = *con;
+    if (con_mod) j["CON_mod"] = *con_mod;
+    if (creature_int) j["int"] = *creature_int;
+    if (int_mod) j["INT_mod"] = *int_mod;
+    if (wis) j["WIS"] = *wis;
+    if (wis_mod) j["WIS_mod"] = *wis_mod;
+    if (cha) j["CHA"] = *cha;
+    if (cha_mod) j["CHA_mod"] = *cha_mod;
+    if (saving_throws) j["Saving Throws"] = *saving_throws;
+    if (skills) j["Skills"] = *skills;
+    if (senses) j["Senses"] = *senses;
+    if (languages) j["Languages"] = *languages;
+    if (challenge) j["Challenge"] = *challenge;
+    if (traits) j["Traits"] = *traits;
+    if (actions) j["Actions"] = *actions;
+    if (legendary_actions) j["Legendary Actions"] = *legendary_actions;
+    if (img_url) j["img_url"] = *img_url;
+    if (damage_immunities) j["Damage Immunities"] = *damage_immunities;
+    if (condition_immunities) j["Condition Immunities"] = *condition_immunities;
+    if (damage_resistances) j["Damage Resistances"] = *damage_resistances;
+    if (damage_vulnerabilities)
+      j["Damage Vulnerabilities"] = *damage_vulnerabilities;
+    if (reactions) j["Reactions"] = *reactions;
+    return j;
+  }
 };
 
 namespace dnd {
     using Creature = CreatureElement;
+
 }
 
-using json = nlohmann::json;
 
 dnd::Creature parse_creature(const json& j);
 
@@ -186,5 +226,8 @@ std::vector<dnd::Creature> parse_creatures_from_file(const std::string& filename
 
 std::vector<dnd::Creature> parse_creatures_from_directory(
     const std::string& directory);
+
+void save_creatures_to_file(const std::vector<dnd::Creature>& creatures,
+                            const std::string& filename);
 
 #endif
