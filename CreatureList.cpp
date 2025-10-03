@@ -54,19 +54,27 @@ void displayCreatures(void* s) {
     ImGui::BeginChild(ImGui::GetID((void*)(intptr_t)i), ImVec2(0, 0),
         ImGuiChildFlags_AutoResizeY | ImGuiChildFlags_AutoResizeX);
     const auto& creature = state->page.creatures[i];
-    ImGui::Text("%s", creature.get_name().value().c_str());
-    ImGui::Text("AC: %s, HP: %s", creature.get_armor_class().value().c_str(),
-                creature.get_hit_points().value().c_str());
-    ImGui::Text("Challenge: %s", creature.get_challenge().value().c_str());
-    if (ImGui::Button("Edit")) {
-      state->clear_image = true;
-      state->current_creature = creature;
-      // Focus on the edit tab
-      ImGui::SetWindowFocus("Creature Edit");
-    }
+    ImGui::Text("%s (%s)", creature.get_name().value().c_str(),
+                creature.original_list.c_str());
+    ImGui::Text("AC: %d, HP: %d (%s)", creature.get_ac().value(),
+                creature.get_max_hit_points(),
+                creature.get_hit_dice().value().c_str());
     if (state->encounter_planner) {
+      if (ImGui::Button("Edit")) {
+        state->clear_image = true;
+        state->current_creature = creature;
+        // Focus on the edit tab
+        ImGui::SetWindowFocus("Creature Edit");
+      }
       ImGui::SameLine();
       ImGui::Button("Add");
+    } else if (state->encounter_battler) {
+      if (ImGui::Button("View")) {
+        state->clear_image = true;
+        state->current_creature = creature;
+        // Focus on the view tab
+        ImGui::SetWindowFocus("Creature View");
+      }
     }
     if (i < state->page.creatures.size() - 1) {
       ImGui::Separator();

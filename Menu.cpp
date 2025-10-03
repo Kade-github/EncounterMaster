@@ -56,10 +56,12 @@ void menuDraw(ToolState* state) {
         }
       });
     }
-    ImGui::Separator();
-    if (ImGui::MenuItem("Create New", "Ctrl-Shift-N"))
-    {
-
+    if (ImGui::MenuItem("Reload Creatures")) {
+      state->creatures = parse_creatures_from_directory("creatures");
+      state->filtered_creatures.clear();
+      state->creature_page = 0;
+      state->creature_selected_index = -1;
+      state->page.creatures.clear();
     }
     ImGui::EndMenu();
   }
@@ -87,7 +89,9 @@ void menuDraw(ToolState* state) {
 
       std::regex filter_regex(state->creature_filter,
                               std::regex_constants::icase);
-      if (std::regex_search(creature.get_name().value(), filter_regex)) {
+      if (std::regex_search(
+              creature.get_name().value() + " (" + creature.original_list + ")",
+              filter_regex)) {
         state->filtered_creatures.push_back(creature);
       }
     }

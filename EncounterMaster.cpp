@@ -11,6 +11,10 @@
 
 #include "Menu.h"
 
+static const char* _IMGUIGetClipboardText(void *) { return SDL_GetClipboardText(); }
+
+static void _IMGUISetClipboardText(void *, const char *text) { SDL_SetClipboardText(text); }
+
 bool doCreaturesExist()
 {
   // Check `creatures/` directory for any .json files
@@ -85,6 +89,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
   ImGui::CreateContext();
   ImGuiIO& io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+  io.SetClipboardTextFn = _IMGUISetClipboardText;
+  io.GetClipboardTextFn = _IMGUIGetClipboardText;
   ImGui::StyleColorsDark();
 
   ImGui_ImplSDL3_InitForSDLRenderer(state->window, state->renderer);

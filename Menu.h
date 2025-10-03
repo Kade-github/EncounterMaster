@@ -36,7 +36,6 @@ struct ToolState {
   bool image_error = false;
   SDL_Texture* current_creature_texture = nullptr;
 
-
   // Creatures in progress of being added/edited
   std::vector<dnd::Creature> working_creatures;
 
