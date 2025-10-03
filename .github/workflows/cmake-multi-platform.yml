@@ -18,22 +18,18 @@ jobs:
 
       # Set up a matrix to run the following configurations:
       # 1. Windows with MSVC
-      # 2. Linux with GCC
-      # 3. Linux with Clang
-      # 4. macOS with Clang
+      # 2. Linux with Clang
+      # 3. macOS with Clang
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         build_type: [Release]
-        c_compiler: [gcc, clang, cl]
+        c_compiler: [clang, cl]
         include:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-          - os: ubuntu-latest
-            c_compiler: gcc
-            cpp_compiler: g++
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
@@ -42,13 +38,9 @@ jobs:
             cpp_compiler: clang++
         exclude:
           - os: windows-latest
-            c_compiler: gcc
-          - os: windows-latest
             c_compiler: clang
           - os: ubuntu-latest
             c_compiler: cl
-          - os: macos-latest
-            c_compiler: gcc
           - os: macos-latest
             c_compiler: cl
 
