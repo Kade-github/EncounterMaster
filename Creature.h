@@ -343,7 +343,7 @@ class Modifiers {
   }
 };
 
-enum class Size : int { GARGANTUAN = 0, HUGE = 1, LARGE = 2, MEDIUM = 3, SMALL = 4, TINY = 5 };
+enum class Size : int { GARGANTUAN = 0, S_HUGE = 1, LARGE = 2, MEDIUM = 3, SMALL = 4, TINY = 5 };
 
 class Speed {
  public:
@@ -548,7 +548,7 @@ class CreatureElement {
     if (size.has_value()) {
       switch (size.value()) {
         case Size::GARGANTUAN: j["size"] = "gargantuan"; break;
-        case Size::HUGE: j["size"] = "huge"; break;
+        case Size::S_HUGE: j["size"] = "huge"; break;
         case Size::LARGE: j["size"] = "large"; break;
         case Size::MEDIUM: j["size"] = "medium"; break;
         case Size::SMALL: j["size"] = "small"; break;

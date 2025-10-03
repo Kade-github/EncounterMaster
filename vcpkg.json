@@ -5,7 +5,7 @@
     "sdl3",
     {
       "name": "sdl3-image",
-      "features": [ "png", "jpeg", "webp" ]
+      "features": [ "png", "jpeg" ]
     },
     "curl",
     "nlohmann-json"

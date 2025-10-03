@@ -19,7 +19,7 @@ dnd::Creature parse_creature(const json& j) {
     else if (size_str == "large")
       size = Size::LARGE;
     else if (size_str == "huge")
-      size = Size::HUGE;
+      size = Size::S_HUGE;
     else if (size_str == "gargantuan")
       size = Size::GARGANTUAN;
     else
@@ -278,11 +278,22 @@ dnd::Creature parse_creature(const json& j) {
                   save.set_dc(dmg["save"].value("dc", 0));
                 damage.set_save(save);
               } else if (dmg.contains("saveDC")) {
-                Save& s = damage.get_save().value_or(Save());
+                if (!damage.get_save().has_value()) {
+                  Save save;
+                  damage.set_save(save);
+                }
+                Save s = damage.get_save().value();
                 s.set_save_dc(dmg.value("saveDC", 0));
+                damage.set_save(s);
               } else if (dmg.contains("dc")) {
-                Save& s = damage.get_save().value_or(Save());
+                if (!damage.get_save().has_value())
+                {
+                    Save save;
+                    damage.set_save(save);
+                }
+                Save s = damage.get_save().value();
                 s.set_dc(dmg.value("dc", 0));
+                damage.set_save(s);
               }
               damages.push_back(damage);
             }

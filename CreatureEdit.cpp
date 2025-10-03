@@ -143,7 +143,7 @@ void imageCallbacks(void* s)
 void checkImage(ToolState* state)
 {
   std::string url = state->current_creature.get_image_url().value_or("");
-  if (url._Starts_with("http")) {
+  if (url.find("http://") == 0 || url.find("https://") == 0) {
     std::filesystem::create_directories("images");
     // Check if the image is already downloaded
     if (std::filesystem::exists("images/" +

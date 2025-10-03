@@ -32,7 +32,7 @@ include_directories(${CURL_INCLUDE_DIRS})
 
 target_link_libraries(EncounterMaster PRIVATE 
 	SDL3::SDL3
-	SDL3_image::SDL3_image-shared
+	SDL3_image::SDL3_image
 	CURL::libcurl
 	nlohmann_json::nlohmann_json
 )
