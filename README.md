@@ -2,6 +2,8 @@
 
 # EncounterMaster
 A D&D 5e encounter manager with creature editing, and sharing.
+
+
 [![hosted-ninja-vcpkg_submod-cacheoff](https://github.com/Kade-github/EncounterMaster/actions/workflows/cmake.yml/badge.svg)](https://github.com/Kade-github/EncounterMaster/actions/workflows/cmake.yml)
 
 ## Features
