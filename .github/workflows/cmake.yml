@@ -61,7 +61,13 @@ jobs:
           cmakeListsTxtPath: 'CMakeLists.txt'
           configurePreset: 'ninja-multi-vcpkg'
           buildPreset: 'ninja-multi-vcpkg'
-  
+          
+      - name: Ad-Hoc sign (Mac)
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo "Ad-Hoc signing the build artifacts"
+          codesign --force --sign - --timestamp --options runtime builds/ninja-multi-vcpkg/Debug/EncounterMaster
+
       - name: Upload build directory
         uses: actions/upload-artifact@v4
         with:
