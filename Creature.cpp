@@ -81,7 +81,7 @@ dnd::Creature parse_creature(const json& j) {
       alignment = Alignment::NEUTRAL_EVIL;
     else if (alignment_str == "chaotic evil")
       alignment = Alignment::CHAOTIC_EVIL;
-    else if (alignment_str == "any alignment")
+    else if (alignment_str == "any")
       alignment = Alignment::ANY;
     else if (alignment_str == "any evil alignment")
       alignment = Alignment::ANY_EVIL_ALIGNMENT;

@@ -219,6 +219,41 @@ void displayCreatureEdit(void* s) {
     ImGui::Text("No Image");
   }
 
+  char listNameBuffer[256];
+  strncpy(listNameBuffer, state->current_creature.original_list.c_str(),
+          sizeof(listNameBuffer));
+  listNameBuffer[sizeof(listNameBuffer) - 1] = '\0';
+
+  ImGui::InputText("List Name", listNameBuffer, sizeof(listNameBuffer));
+
+  state->current_creature.original_list = std::string(listNameBuffer);
+  ImGui::SameLine();
+  if (ImGui::Button("Save to list")) {
+    std::vector<dnd::Creature> creatures = {state->current_creature};
+    if (std::filesystem::exists(
+            "creatures/" + state->current_creature.original_list + ".json")) {
+      creatures = parse_creatures_from_file(
+          "creatures/" + state->current_creature.original_list + ".json");
+
+      bool found = false;
+      for (size_t i = 0; i < creatures.size(); i++) {
+        if (creatures[i].get_name() == state->current_creature.get_name()) {
+          creatures[i] = state->current_creature;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        creatures.push_back(state->current_creature);
+      }
+    }
+    // Save back to file
+
+    save_creatures_to_file(
+        creatures,
+        "creatures/" + state->current_creature.original_list + ".json");
+  }
+
   ImGui::Separator();
 
   Size size = state->current_creature.get_size().value_or(Size::MEDIUM);
@@ -572,43 +607,6 @@ void displayCreatureEdit(void* s) {
     state->clear_image = true;
   }
   state->current_creature.set_image_url(std::string(imageUrlBuffer));
-
-  char listNameBuffer[256];
-  strncpy(listNameBuffer, state->current_creature.original_list.c_str(),
-          sizeof(listNameBuffer));
-  listNameBuffer[sizeof(listNameBuffer) - 1] = '\0';
-
-  ImGui::Separator();
-
-  ImGui::InputText("List Name", listNameBuffer, sizeof(listNameBuffer));
-
-  state->current_creature.original_list = std::string(listNameBuffer);
-  ImGui::SameLine();
-  if (ImGui::Button("Save to list"))
-  {
-    std::vector<dnd::Creature> creatures = {state->current_creature};
-    if (std::filesystem::exists(
-            "creatures/" + state->current_creature.original_list + ".json")) {
-      creatures = parse_creatures_from_file(
-          "creatures/" + state->current_creature.original_list + ".json");
-
-      bool found = false;
-      for (size_t i = 0; i < creatures.size(); i++) {
-        if (creatures[i].get_name() == state->current_creature.get_name()) {
-          creatures[i] = state->current_creature;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        creatures.push_back(state->current_creature);
-      }
-    }
-    // Save back to file
-
-    save_creatures_to_file(creatures, "creatures/" +
-                           state->current_creature.original_list + ".json");
-  }
 
   ImGui::EndChild();
 }
