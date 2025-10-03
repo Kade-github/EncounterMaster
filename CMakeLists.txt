@@ -20,8 +20,7 @@ add_executable (EncounterMaster
 "EncounterMaster.cpp" "Menu.cpp" "Creature.h" "Creature.cpp" "Download.h" "Download.cpp" "CreatureList.h" "CreatureList.cpp"
 "imgui/imgui.cpp" "imgui/imgui_draw.cpp" "imgui/imgui_demo.cpp" "imgui/imgui_tables.cpp" "imgui/imgui_widgets.cpp" "imgui/backends/imgui_impl_sdlrenderer3.cpp" "imgui/backends/imgui_impl_sdl3.cpp" "CreatureEdit.h" "CreatureEdit.cpp" )
 
-# VCPKG configuration (wouldn't work without manually setting it sorry)
-set(CMAKE_TOOLCHAIN_FILE "E:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 include("${CMAKE_TOOLCHAIN_FILE}")
 
 find_package(SDL3 CONFIG REQUIRED)
