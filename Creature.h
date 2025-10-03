@@ -424,6 +424,11 @@ class CreatureElement {
   std::optional<std::string> notes;
 
  public:
+  int current_hit_points = 0;
+  int temp_hit_points = 0;
+
+  int id = 0;
+
   std::string original_list = "";
 
   std::optional<std::string> get_name() const { return name; }
@@ -535,7 +540,7 @@ class CreatureElement {
   }
 
   std::optional<std::string> get_notes() const { return notes; }
-  void set_notes(std::optional<std::string> value) { this->notes = value; }
+  void set_notes(std::string value) { this->notes = value; }
 
   std::string to_string() const {
     return name.value_or("Unknown Creature"); 

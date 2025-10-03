@@ -11,7 +11,7 @@
 #   vcpkg's Binary Caching backed by GH Action cache is being used. It will be a no-op if 
 #   dependencies are restored from GH Action cache.
 # - Finally builds the sources with Ninja.
-name: hosted-ninja-vcpkg_submod-cacheoff
+name: Build (Windows, Linux, MacOS) CMake Ninja
 on: [push, workflow_dispatch]
 
 jobs:

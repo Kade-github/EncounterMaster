@@ -67,7 +67,10 @@ void displayCreatures(void* s) {
         ImGui::SetWindowFocus("Creature Edit");
       }
       ImGui::SameLine();
-      ImGui::Button("Add");
+      if (ImGui::Button("Add"))
+      {
+        state->current_encounter.add_creature(creature);
+      }
     } else if (state->encounter_battler) {
       if (ImGui::Button("View")) {
         state->clear_image = true;

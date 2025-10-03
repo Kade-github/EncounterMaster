@@ -25,6 +25,12 @@ void write_data(void* ptr, size_t size, size_t nmemb, FILE* stream) {
 }
 
 void downloadList(std::string url) {
+  if (!easy_handle) {
+    easy_handle = curl_easy_init();
+    if (!easy_handle) {
+      SDL_LogError(SDL_LOG_CATEGORY_ERROR, "curl_easy_init failed");
+    }
+  }
   curl_easy_setopt(easy_handle, CURLOPT_URL, url.c_str());
   curl_easy_setopt(easy_handle, CURLOPT_FOLLOWLOCATION, 1L);
   curl_easy_setopt(easy_handle, CURLOPT_WRITEFUNCTION, write_data);
@@ -32,6 +38,7 @@ void downloadList(std::string url) {
   long max_file_size_bytes = 25 * 1024 * 1024L;  // 25 MB
   curl_easy_setopt(easy_handle, CURLOPT_MAXFILESIZE, max_file_size_bytes);
   std::string filename = "creatures/" + url.substr(url.find_last_of("/") + 1);
+  SDL_Log("Downloading %s to %s", url.c_str(), filename.c_str());
   // create directory if it doesn't exist
   std::filesystem::create_directories("creatures");
   file = fopen(filename.c_str(), "wb");
@@ -109,10 +116,25 @@ curlStatus downloadCallbacks() {
 
   if (mc != CURLM_OK) {
     SDL_Log("curl_multi_perform() failed, code %d.", mc);
+
+    // Cleanup, retry
+
+    if (file) {
+      fclose(file);
+      file = nullptr;
+    }
+
+    curl_multi_remove_handle(multi_handle, easy_handle);
+    curl_easy_cleanup(easy_handle);
+
+    downloadList(last_url);
+    curl_multi_add_handle(multi_handle, easy_handle);
+    return status;
   }
 
   if (!still_running) {
-    SDL_Log("Downloaded %s", last_url.c_str());
+    SDL_Log("Downloaded %s, total %zu bytes", last_url.c_str(),
+            static_cast<size_t>(total_downloaded));
 
     if (file) {
       fclose(file);
@@ -121,10 +143,16 @@ curlStatus downloadCallbacks() {
 
     if (!urls_to_download.empty()) {
       // Start next download
+
       last_url = urls_to_download.back();
-      downloadList(last_url);
       urls_to_download.pop_back();
       SDL_Log("Starting next download, %zu remaining", urls_to_download.size());
+
+      curl_multi_remove_handle(multi_handle, easy_handle);
+      curl_easy_cleanup(easy_handle);
+      easy_handle = nullptr;
+      downloadList(last_url);
+      curl_multi_add_handle(multi_handle, easy_handle);
       return status;
     }
 

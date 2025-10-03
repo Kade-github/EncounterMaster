@@ -17,11 +17,14 @@ project ("EncounterMaster" C CXX)
 
 # Add source to this project's executable.
 add_executable (EncounterMaster 
-"EncounterMaster.cpp" "Menu.cpp" "Creature.h" "Creature.cpp" "Download.h" "Download.cpp" "CreatureList.h" "CreatureList.cpp"
-"imgui/imgui.cpp" "imgui/imgui_draw.cpp" "imgui/imgui_demo.cpp" "imgui/imgui_tables.cpp" "imgui/imgui_widgets.cpp" "imgui/backends/imgui_impl_sdlrenderer3.cpp" "imgui/backends/imgui_impl_sdl3.cpp" "CreatureEdit.h" "CreatureEdit.cpp" )
+"EncounterMaster.cpp" "Menu.cpp" "Creature.h" "Creature.cpp" "Download.h" "Download.cpp" "CreatureList.h" "CreatureList.cpp" icon.rc
+"imguifilediag/ImGuiFileDialog.cpp"
+"imgui/imgui.cpp" "imgui/imgui_draw.cpp" "imgui/imgui_demo.cpp" "imgui/imgui_tables.cpp" "imgui/imgui_widgets.cpp" "imgui/backends/imgui_impl_sdlrenderer3.cpp" "imgui/backends/imgui_impl_sdl3.cpp" "CreatureEdit.h" "CreatureEdit.cpp"  "Encounter.h" "Encounter.cpp" "EncounterEdit.h" "EncounterEdit.cpp" )
 
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 include("${CMAKE_TOOLCHAIN_FILE}")
+
+target_compile_definitions(EncounterMaster PRIVATE IMGUI_INTERNAL_INCLUDE="../imgui/imgui_internal.h" IMGUI_INCLUDE="../imgui/imgui.h")
 
 find_package(SDL3 CONFIG REQUIRED)
 find_package(SDL3_image CONFIG REQUIRED)

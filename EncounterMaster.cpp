@@ -112,6 +112,16 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
     SDL_Log("Creature data not found, will prompt to download.");
   }
 
+  // Set icon
+
+  SDL_Surface* icon = IMG_Load("assets/ec_icon.png");
+  if (icon) {
+    SDL_SetWindowIcon(state->window, icon);
+    SDL_DestroySurface(icon);
+  } else {
+    SDL_Log("Failed to load icon: %s", SDL_GetError());
+  }
+
   return SDL_APP_CONTINUE;
 }
 

@@ -3,10 +3,11 @@
 
 #include <SDL3/SDL.h>
 #include <vector>
-#include "Creature.h"
+#include "Encounter.h"
 #include "Download.h"
 #include "CreatureList.h"
 #include "CreatureEdit.h"
+#include "EncounterEdit.h"
 
 struct CreaturePage {
   std::vector<dnd::Creature> creatures;
@@ -20,6 +21,8 @@ struct ToolState {
   bool should_download_creatures = false;
   bool is_downloading_creatures = false;
   std::vector<dnd::Creature> creatures;
+
+  bool reload_creatures = false;
 
   // Creature list
   std::vector<dnd::Creature> filtered_creatures;
@@ -36,13 +39,10 @@ struct ToolState {
   bool image_error = false;
   SDL_Texture* current_creature_texture = nullptr;
 
-  // Creatures in progress of being added/edited
-  std::vector<dnd::Creature> working_creatures;
-
   bool show_error_popup = false;
   std::string error_message;
 
-  FILE* opened_encounter = nullptr;
+  dnd::Encounter current_encounter;
 
   bool encounter_planner = false;
   bool encounter_battler = false;

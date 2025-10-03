@@ -401,6 +401,9 @@ std::vector<dnd::Creature> parse_creatures_from_directory(
     const std::string& directory) {
   SDL_Log("Loading creatures...");
   std::vector<dnd::Creature> all_creatures;
+
+  std::filesystem::create_directories("creatures");
+
   for (const auto& entry : std::filesystem::directory_iterator(directory)) {
     if (entry.path().extension() == ".json") {
       auto creatures = parse_creatures_from_file(entry.path().string());

@@ -163,8 +163,54 @@ void checkImage(ToolState* state)
   }
 }
 
+void saveCreature(void* s) {
+  ToolState* state = (ToolState*)s;
+  std::vector<dnd::Creature> creatures = {state->current_creature};
+  if (std::filesystem::exists(
+          "creatures/" + state->current_creature.original_list + ".json")) {
+    creatures = parse_creatures_from_file(
+        "creatures/" + state->current_creature.original_list + ".json");
+
+    bool found = false;
+    for (size_t i = 0; i < creatures.size(); i++) {
+      if (creatures[i].get_name() == state->current_creature.get_name()) {
+        creatures[i] = state->current_creature;
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      creatures.push_back(state->current_creature);
+    }
+  }
+
+  
+  // replace old creature in list
+  auto it = std::find_if(state->creatures.begin(), state->creatures.end(),
+                         [state](const dnd::Creature& c) {
+                           return c.original_list ==
+                                  state->current_creature.original_list;
+                         });
+
+  if (it != state->creatures.end()) {
+    *it = state->current_creature;
+  } else {
+    state->creatures.push_back(state->current_creature);
+  }
+
+  // Reload creatures
+  state->reload_creatures = true;
+
+  // Save back to file
+
+  save_creatures_to_file(
+      creatures,
+      "creatures/" + state->current_creature.original_list + ".json");
+}
+
 void displayCreatureEdit(void* s) {
   ToolState* state = (ToolState*)s;
+  bool isInPlanner = state->encounter_planner;
   if (!state->current_creature.get_name().has_value()) {
     ImGui::Text("No creature selected");
     return;
@@ -198,9 +244,11 @@ void displayCreatureEdit(void* s) {
   char nameBuffer[256];
   getBufferFromOptionalString(state->current_creature.get_name(), nameBuffer,
                               sizeof(nameBuffer));
-  ImGui::Text("Name:");
+  
+  ImGui::BeginDisabled(!state->encounter_planner);
+
   ImGui::PushItemWidth(175);
-  if (ImGui::InputText("##Name", nameBuffer, sizeof(nameBuffer))) {
+  if (ImGui::InputText("Name", nameBuffer, sizeof(nameBuffer))) {
     state->current_creature.set_name(std::string(nameBuffer));
   }
   ImGui::PopItemWidth();
@@ -228,30 +276,8 @@ void displayCreatureEdit(void* s) {
 
   state->current_creature.original_list = std::string(listNameBuffer);
   ImGui::SameLine();
-  if (ImGui::Button("Save to list")) {
-    std::vector<dnd::Creature> creatures = {state->current_creature};
-    if (std::filesystem::exists(
-            "creatures/" + state->current_creature.original_list + ".json")) {
-      creatures = parse_creatures_from_file(
-          "creatures/" + state->current_creature.original_list + ".json");
-
-      bool found = false;
-      for (size_t i = 0; i < creatures.size(); i++) {
-        if (creatures[i].get_name() == state->current_creature.get_name()) {
-          creatures[i] = state->current_creature;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        creatures.push_back(state->current_creature);
-      }
-    }
-    // Save back to file
-
-    save_creatures_to_file(
-        creatures,
-        "creatures/" + state->current_creature.original_list + ".json");
+  if (ImGui::Button("Save to")) {
+    saveCreature(s);
   }
 
   ImGui::Separator();
@@ -303,13 +329,6 @@ void displayCreatureEdit(void* s) {
   {
     l += (lang + ", ");
   }
-
-  char notesBuffer[1024];
-  getBufferFromOptionalString(state->current_creature.get_notes(), notesBuffer,
-                              sizeof(notesBuffer));
-  ImGui::InputTextMultiline("Notes", notesBuffer, sizeof(notesBuffer),
-                            ImVec2(0, 0), ImGuiInputTextFlags_WordWrap);
-  state->current_creature.set_notes(std::string(notesBuffer));
 
   char langBuffer[512];
   strncpy(langBuffer, l.c_str(), sizeof(langBuffer));
@@ -607,6 +626,8 @@ void displayCreatureEdit(void* s) {
     state->clear_image = true;
   }
   state->current_creature.set_image_url(std::string(imageUrlBuffer));
+
+  ImGui::EndDisabled();
 
   ImGui::EndChild();
 }
