@@ -1,5 +1,7 @@
 ![Encounter Master Logo](em_logo.png)
 
+> okay I tried to draw a 'dragon seahorse' but like I am NOT good at drawing.. IM SORRY
+
 # EncounterMaster
 A D&D 5e encounter manager with creature editing, and sharing.
 
