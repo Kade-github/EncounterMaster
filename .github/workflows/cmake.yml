@@ -42,6 +42,11 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install libltdl-dev
         shell: bash
+      
+      - name: Install x11
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt install libx11-dev libxft-dev libxext-dev
+        shell: bash
         
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
@@ -49,11 +54,6 @@ jobs:
         with:
           vcpkgArguments: '@vcpkg.json'
 
-      - name: List $RUNNER_WORKSPACE before build
-        run: find $RUNNER_WORKSPACE
-        shell: bash
-      - name: Prints output of run-vcpkg's action.
-        run: echo "root='${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}', triplet='${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_DEFAULT_TRIPLET_OUT }}' "
       - name: Run CMake+vcpkg+Ninja
         uses: lukka/run-cmake@v10
         id: runcmake
@@ -61,11 +61,9 @@ jobs:
           cmakeListsTxtPath: 'CMakeLists.txt'
           configurePreset: 'ninja-multi-vcpkg'
           buildPreset: 'ninja-multi-vcpkg'
-      - name: List $RUNNER_WORKSPACE after build
-        run: find $RUNNER_WORKSPACE
-        shell: bash
+  
       - name: Upload build directory
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.os }}-${{ github.workflow }}
-          path: builds
+          name: build-${{ matrix.os }} - Build (No Assets)
+          path: builds/ninja-multi-vcpkg/Debug/
