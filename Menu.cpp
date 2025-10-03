@@ -170,8 +170,9 @@ void menuDraw(ToolState* state) {
   }
   ImGui::EndMenuBar();
 
-  if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", 32, ImVec2(320,320)) ||
-      ImGuiFileDialog::Instance()->Display("SaveFileDlgKey", 32,
+  if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", 32 | ImGuiWindowFlags_NoDocking, ImVec2(320,320)) ||
+      ImGuiFileDialog::Instance()->Display("SaveFileDlgKey",
+                                           32 | ImGuiWindowFlags_NoDocking,
                                            ImVec2(320, 320))) {
 
     if (ImGuiFileDialog::Instance()->IsOk()) {  // action if OK
