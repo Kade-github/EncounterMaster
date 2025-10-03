@@ -40,3 +40,7 @@ You can download the latest release of EncounterMaster from the [Releases](https
    ```
 
 Or, you can use visual studio or something lol.
+
+After you build, make sure to copy the `assets` folder to the same directory as the executable. (Otherwise it will get mad)
+
+Make sure to also copy any libraries you might need as well (mostly on windows).
