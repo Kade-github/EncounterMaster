@@ -203,8 +203,8 @@ void saveCreature(void* s) {
   // replace old creature in list
   auto it = std::find_if(state->creatures.begin(), state->creatures.end(),
                          [state](const dnd::Creature& c) {
-                           return c.original_list ==
-                                  state->current_creature.original_list;
+                     return c.get_name() == state->current_creature.get_name() &&
+               c.original_list == state->current_creature.original_list;
                          });
 
   if (it != state->creatures.end()) {
