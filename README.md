@@ -8,10 +8,39 @@ A D&D 5e encounter manager with creature editing, and sharing.
 
 [![hosted-ninja-vcpkg_submod-cacheoff](https://github.com/Kade-github/EncounterMaster/actions/workflows/cmake.yml/badge.svg)](https://github.com/Kade-github/EncounterMaster/actions/workflows/cmake.yml)
 
-## Features
+## Main Features (Headliners)
 - Use existing stat blocks as a base.
 - Create, edit, and delete creatures with stats, abilities, and actions.
 - Save and load encounters with multiple creatures.
+- Cross-platform support (Windows, Linux, MacOS).
+- It's free, and open source! You don't have to pay a dime!
+
+### Everything else :P
+- Export and import creatures as JSON files for easy sharing.
+- Search and filter creatures by list, name, or regex.
+- Add custom notes to creatures in encounters for later.
+- Create and save creatures to specific lists.
+- Change pretty much every single thing about a creature (besides a few damage things, which might come later... shh), the exhaustive list is:
+  - Name
+  - Size
+  - Type
+  - Alignment
+  - Armor Class
+  - Hit Points (with dice formula support)
+  - Speed (multiple types)
+  - Ability Scores (STR, DEX, CON, INT, WIS, CHA)
+  - Saving Throws
+  - Skills (Or traits, if you want to be fancy)
+  - Languages
+  - Challenge Rating
+  - Actions (name and description)
+  - Legendary Actions (name and description)
+  - Reactions (name and description)
+- Automatic display for modifiers.
+- Download lists from `creature_mirrors.txt`, which is a simple text file with URLs to JSON creature lists. (You can make your own and add it to the file if you want)
+- Everything important is keybinded.
+- Automatically downloading and caching images from creatures (supports local files too!)
+- It's pretty lightweight and fast.
 
 ## Gallery
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/5f6c0f8d-12ad-46d8-ac31-0ae77e46fa4b" />
