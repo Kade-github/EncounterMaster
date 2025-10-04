@@ -39,6 +39,10 @@ void displayEncounterEdit(void* s)
         break; // Break to avoid iterator invalidation
       }
 
+      ImGui::Text("AC: %d, HP: %d (%s)", creature.get_ac().value(),
+                  creature.get_max_hit_points(),
+                  creature.get_hit_dice().value_or("N/A").c_str());
+
       // Notes
       ImGui::Separator();
 
@@ -55,7 +59,29 @@ void displayEncounterEdit(void* s)
           ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 4));
       creature.set_notes(std::string(notesBuffer));
 
-      ImGui::Text("Actions");
+      ImGui::Separator();
+
+      ImGui::Text("Traits:");
+
+      ImGui::Separator();
+
+      if (creature.get_traits().has_value()) {
+        // Traits
+        for (const auto& trait : creature.get_traits().value_or(
+                 std::vector<std::string>())) {
+          ImGui::TextWrapped("%s", trait.c_str());
+        ImGui::Separator();
+        }
+        if (creature.get_traits()->empty()) {
+          ImGui::Text("No traits available.");
+          ImGui::Separator();
+        }
+      } else {
+        ImGui::Text("No traits available.");
+        ImGui::Separator();
+      }
+
+      ImGui::Text("Actions:");
 
       ImGui::Separator();
 
@@ -79,6 +105,8 @@ void displayEncounterEdit(void* s)
 
       ImGui::Text("Legendary Actions:");
 
+      ImGui::Separator();
+
       if (creature.get_legendary_actions().has_value()) {
         // Legendary Actions
         for (const auto& la : creature.get_legendary_actions().value_or(
@@ -96,6 +124,8 @@ void displayEncounterEdit(void* s)
       }
 
       ImGui::Text("Reactions:");
+
+      ImGui::Separator();
 
       if (creature.get_reactions().has_value()) {
         // Reactions
