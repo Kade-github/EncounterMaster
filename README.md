@@ -15,6 +15,9 @@ A D&D 5e encounter manager with creature editing, and sharing.
 - Cross-platform support (Windows, Linux, MacOS).
 - It's free, and open source! You don't have to pay a dime!
 
+## Download
+You can download the latest release of EncounterMaster from the [Releases](https://github.com/Kade-github/EncounterMaster/releases/latest) page.
+
 ### Everything else :P
 - Export and import creatures as JSON files for easy sharing.
 - Search and filter creatures by list, name, or regex.
@@ -47,10 +50,6 @@ A D&D 5e encounter manager with creature editing, and sharing.
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/4906d2cc-02e2-4f87-8764-f6d0d6d26dc9" />
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/73b7707f-6d6c-4ea4-a06a-2c5b414b1ff0" />
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/5e0703c8-597d-41cb-b44d-07cca0d7b325" />
-
-
-## Download
-You can download the latest release of EncounterMaster from the [Releases](https://github.com/Kade-github/EncounterMaster/releases/latest) page.
 
 ## Building from Source
 ### Prerequisites
