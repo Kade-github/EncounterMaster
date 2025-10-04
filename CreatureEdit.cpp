@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <vector>
 
+
 std::string image_data;
 std::string image_filename = "downloaded_image.tmp";
 CURL* creature_easy = nullptr;

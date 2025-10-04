@@ -15,11 +15,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project ("EncounterMaster" C CXX)
 
-# Add source to this project's executable.
-add_executable (EncounterMaster 
-"EncounterMaster.cpp" "Menu.cpp" "Creature.h" "Creature.cpp" "Download.h" "Download.cpp" "CreatureList.h" "CreatureList.cpp" icon.rc
+set(SRC_FILES "EncounterMaster.cpp" "Menu.cpp" "Creature.h" "Creature.cpp" "Download.h" "Download.cpp" "CreatureList.h" "CreatureList.cpp" icon.rc
 "imguifilediag/ImGuiFileDialog.cpp"
-"imgui/imgui.cpp" "imgui/imgui_draw.cpp" "imgui/imgui_demo.cpp" "imgui/imgui_tables.cpp" "imgui/imgui_widgets.cpp" "imgui/backends/imgui_impl_sdlrenderer3.cpp" "imgui/backends/imgui_impl_sdl3.cpp" "CreatureEdit.h" "CreatureEdit.cpp"  "Encounter.h" "Encounter.cpp" "EncounterEdit.h" "EncounterEdit.cpp" )
+"imgui/imgui.cpp" "imgui/imgui_draw.cpp" "imgui/imgui_demo.cpp" "imgui/imgui_tables.cpp" "imgui/imgui_widgets.cpp" "imgui/backends/imgui_impl_sdlrenderer3.cpp" "imgui/backends/imgui_impl_sdl3.cpp" "CreatureEdit.h" "CreatureEdit.cpp"  "Encounter.h" "Encounter.cpp" "EncounterEdit.h" "EncounterEdit.cpp")
+
+# Add source to this project's executable.
+# If on windows - and it's a release build, make it Win32
+
+if (WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Release")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+	add_executable (EncounterMaster WIN32 ${SRC_FILES})
+elseif()
+	add_executable (EncounterMaster ${SRC_FILES})
+endif()
 
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 include("${CMAKE_TOOLCHAIN_FILE}")
