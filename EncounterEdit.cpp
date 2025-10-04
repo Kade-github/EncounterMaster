@@ -61,9 +61,24 @@ void displayEncounterEdit(void* s)
 
       ImGui::Separator();
 
-      ImGui::Text("Traits:");
+      ImGui::Text("Skills:");
 
-      ImGui::Separator();
+      if (creature.get_skills().has_value()) {
+        // Skills
+        for (const auto& skill : creature.get_skills().value_or(std::map<std::string, int>())) {
+          ImGui::TextWrapped("%s: %d", skill.first.c_str(), skill.second);
+          ImGui::Separator();
+        }
+        if (creature.get_skills()->empty()) {
+          ImGui::Text("No skills available.");
+          ImGui::Separator();
+        }
+      } else {
+        ImGui::Text("No skills available.");
+        ImGui::Separator();
+      }
+
+      ImGui::Text("Traits:");
 
       if (creature.get_traits().has_value()) {
         // Traits
@@ -82,8 +97,6 @@ void displayEncounterEdit(void* s)
       }
 
       ImGui::Text("Actions:");
-
-      ImGui::Separator();
 
       if (creature.get_actions().has_value()) {
         // Actions
@@ -105,8 +118,6 @@ void displayEncounterEdit(void* s)
 
       ImGui::Text("Legendary Actions:");
 
-      ImGui::Separator();
-
       if (creature.get_legendary_actions().has_value()) {
         // Legendary Actions
         for (const auto& la : creature.get_legendary_actions().value_or(
@@ -124,8 +135,6 @@ void displayEncounterEdit(void* s)
       }
 
       ImGui::Text("Reactions:");
-
-      ImGui::Separator();
 
       if (creature.get_reactions().has_value()) {
         // Reactions
