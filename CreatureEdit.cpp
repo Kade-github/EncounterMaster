@@ -542,7 +542,7 @@ void displayCreatureEdit(void* s) {
   int t_id = 0;
   for (std::string trait : traits)
   {
-    char traitBuffer[512];
+    char traitBuffer[2056];
     strncpy(traitBuffer, trait.c_str(), sizeof(traitBuffer));
     traitBuffer[sizeof(traitBuffer) - 1] = '\0';
     ImGui::InputTextMultiline(("##Trait" + std::to_string(t_id)).c_str(), traitBuffer,
@@ -574,7 +574,7 @@ void displayCreatureEdit(void* s) {
   int a_id = 0;
   for (std::string action : action_list)
   {
-    char actionBuffer[512];
+    char actionBuffer[2056];
     strncpy(actionBuffer, action.c_str(), sizeof(actionBuffer));
     actionBuffer[sizeof(actionBuffer) - 1] = '\0';
     ImGui::InputTextMultiline(("##Action" + std::to_string(a_id)).c_str(), actionBuffer,
@@ -606,7 +606,7 @@ void displayCreatureEdit(void* s) {
   int la_id = 0;
   for (std::string la : leg_actions)
   {
-    char laBuffer[512];
+    char laBuffer[2056];
     strncpy(laBuffer, la.c_str(), sizeof(laBuffer));
     laBuffer[sizeof(laBuffer) - 1] = '\0';
     ImGui::InputTextMultiline(("##LegendaryAction" + std::to_string(la_id)).c_str(), laBuffer,
@@ -636,7 +636,7 @@ void displayCreatureEdit(void* s) {
   int r_id = 0;
   for (std::string r : reactions)
   {
-    char rBuffer[512];
+    char rBuffer[2056];
     strncpy(rBuffer, r.c_str(), sizeof(rBuffer));
     rBuffer[sizeof(rBuffer) - 1] = '\0';
     ImGui::InputTextMultiline(("##Reaction" + std::to_string(r_id)).c_str(), rBuffer,
