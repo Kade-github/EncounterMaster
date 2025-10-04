@@ -52,10 +52,13 @@ void downloadList(std::string url) {
 }
 
 void downloadCreatures(std::function<void()> callback) {
-  if (!multi_handle) {
-    SDL_LogError(SDL_LOG_CATEGORY_ERROR, "curl_multi_init failed");
-    if (callback) callback();
-    return;
+  if (!multi_handle) { // so make it god damn it >:(
+    multi_handle = curl_multi_init();
+    if (!multi_handle) {
+      SDL_LogError(SDL_LOG_CATEGORY_ERROR, "curl_multi_init failed");
+      if (callback) callback();
+      return;
+    }
   }
 
   easy_handle = curl_easy_init();
