@@ -178,6 +178,39 @@ void checkImage(ToolState* state)
   }
 }
 
+void removeCreature(void* s)
+{
+  ToolState* state = (ToolState*)s;
+  std::vector<dnd::Creature> creatures = {state->current_creature};
+  if (std::filesystem::exists(
+          "creatures/" + state->current_creature.original_list + ".json")) {
+    creatures = parse_creatures_from_file(
+        "creatures/" + state->current_creature.original_list + ".json");
+
+    auto it = std::remove_if(creatures.begin(), creatures.end(),
+                             [state](const dnd::Creature& c) {
+                               return c.get_name() == state->current_creature.get_name();
+        });
+    if (it != creatures.end()) {
+      creatures.erase(it, creatures.end());
+    }
+    save_creatures_to_file(
+        creatures,
+        "creatures/" + state->current_creature.original_list + ".json");
+  }
+
+  // remove from state list
+  auto it = std::remove_if(state->creatures.begin(), state->creatures.end(),
+                           [state](const dnd::Creature& c) {
+                             return c.get_name() == state->current_creature.get_name() &&
+                                    c.original_list == state->current_creature.original_list;
+      });
+  if (it != state->creatures.end()) {
+    state->creatures.erase(it, state->creatures.end());
+    state->reload_creatures = true;
+  }
+}
+
 void saveCreature(void* s) {
   ToolState* state = (ToolState*)s;
   std::vector<dnd::Creature> creatures = {state->current_creature};
@@ -290,6 +323,10 @@ void displayCreatureEdit(void* s) {
   ImGui::InputText("List Name", listNameBuffer, sizeof(listNameBuffer));
 
   state->current_creature.original_list = std::string(listNameBuffer);
+  if (ImGui::Button("Remove from"))
+  {
+    removeCreature(s);
+  }
   ImGui::SameLine();
   if (ImGui::Button("Save to")) {
     saveCreature(s);

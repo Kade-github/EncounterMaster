@@ -60,16 +60,15 @@ void displayCreatures(void* s) {
                 creature.get_max_hit_points(),
                 creature.get_hit_dice().value().c_str());
     if (state->encounter_planner) {
+      if (ImGui::Button("Add")) {
+        state->current_encounter.add_creature(creature);
+      }
+      ImGui::SameLine();
       if (ImGui::Button("Edit")) {
         state->clear_image = true;
         state->current_creature = creature;
         // Focus on the edit tab
         ImGui::SetWindowFocus("Creature Edit");
-      }
-      ImGui::SameLine();
-      if (ImGui::Button("Add"))
-      {
-        state->current_encounter.add_creature(creature);
       }
     } else if (state->encounter_battler) {
       if (ImGui::Button("View")) {
