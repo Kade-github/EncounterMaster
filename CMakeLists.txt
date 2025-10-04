@@ -25,7 +25,7 @@ set(SRC_FILES "EncounterMaster.cpp" "Menu.cpp" "Creature.h" "Creature.cpp" "Down
 if (WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Release")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
 	add_executable (EncounterMaster WIN32 ${SRC_FILES})
-elseif()
+else()
 	add_executable (EncounterMaster ${SRC_FILES})
 endif()
 
