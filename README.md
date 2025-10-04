@@ -32,7 +32,6 @@ You can download the latest release of EncounterMaster from the [Releases](https
   - Hit Points (with dice formula support)
   - Speed (multiple types)
   - Ability Scores (STR, DEX, CON, INT, WIS, CHA)
-  - Saving Throws
   - Skills (Or traits, if you want to be fancy)
   - Languages
   - Challenge Rating
