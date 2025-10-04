@@ -162,25 +162,29 @@
       "name": "ninja",
       "configurePreset": "ninja",
       "displayName": "Build with Ninja",
-      "description": "Build with Ninja"
+      "description": "Build with Ninja",
+      "configuration": "Release"
     },
     {
       "name": "ninja-multi-vcpkg",
       "configurePreset": "ninja-multi-vcpkg",
       "displayName": "Build ninja-multi-vcpkg",
-      "description": "Build ninja-multi-vcpkg Configurations"
+      "description": "Build ninja-multi-vcpkg Configurations",
+      "configuration": "Release"
     },
     {
       "name": "ninja-toolchain",
       "configurePreset": "ninja-toolchain",
       "displayName": "Build ninja-toolchain",
-      "description": "Build ninja with a toolchain"
+      "description": "Build ninja with a toolchain",
+      "configuration": "Release"
     },
     {
       "name": "msbuild-vcpkg",
       "configurePreset": "msbuild-vcpkg",
       "displayName": "Build MSBuild",
-      "description": "Build with MSBuild (VS)"
+      "description": "Build with MSBuild (VS)",
+      "configuration": "Release"
     }
   ],
   "workflowPresets": [
