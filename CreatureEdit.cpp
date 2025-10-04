@@ -124,6 +124,12 @@ void imageCallbacks(void* s)
     outFile.write(image_data.data(), image_data.size());
     outFile.close();
 
+    if (!state->current_creature_texture)
+    {
+      SDL_DestroyTexture(state->current_creature_texture);
+      state->current_creature_texture = nullptr;
+    }
+
     state->current_creature_texture =
         loadTextureFromFile(state->renderer, "images/" + image_filename);
 
@@ -149,6 +155,10 @@ void checkImage(ToolState* state)
     if (std::filesystem::exists("images/" +
                                 url.substr(url.find_last_of("/\\") + 1))) {
       SDL_Log("Loading cached image from URL: %s", url.c_str());
+      if (!state->current_creature_texture) {
+        SDL_DestroyTexture(state->current_creature_texture);
+        state->current_creature_texture = nullptr;
+      }
       state->current_creature_texture = loadTextureFromFile(
           state->renderer, "images/" + url.substr(url.find_last_of("/\\") + 1));
     }
@@ -158,6 +168,10 @@ void checkImage(ToolState* state)
     }
   } else {
     SDL_Log("Loading local image from URL: %s", url.c_str());
+    if (!state->current_creature_texture) {
+      SDL_DestroyTexture(state->current_creature_texture);
+      state->current_creature_texture = nullptr;
+    }
     SDL_Texture* texture = loadTextureFromFile(state->renderer, url);
     if (texture) state->current_creature_texture = texture;
   }
