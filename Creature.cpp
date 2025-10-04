@@ -412,8 +412,6 @@ std::vector<dnd::Creature> parse_creatures_from_directory(
     }
   }
 
-  save_creatures_to_file(all_creatures, "all_creatures.json");
-
   return all_creatures;
 }
 
