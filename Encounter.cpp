@@ -52,7 +52,7 @@ dnd::Encounter parse_encounter_from_file(void* s, const std::string& filename) {
     bool found = false;
     for (auto creature : state->creatures) {
       std::string name = creature.get_name().value_or("Unnamed Creature");
-      name += " (" + creature.original_list + ") (" + std::to_string(i) + ")"; 
+      name += " (" + creature.original_list + ")"; 
       if (name == creature_name) {
         if (i < notes.size())
             creature.set_notes(notes[i]);

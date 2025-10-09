@@ -76,11 +76,7 @@ namespace dnd {
             j["notes"] = json::array();
             int i = 0;
             for (const auto& creature : creatures.value()) {
-              if (creature.find(" (" + std::to_string(i) + ")") == std::string::npos) {
-                  j["creatures"].push_back(creature + " (" + std::to_string(i) + ")");
-              } else {
-                j["creatures"].push_back(creature);
-              }
+              j["creatures"].push_back(creature);
               auto creature_object = creature_objects[i];
               j["notes"].push_back(creature_object.get_notes().value_or(""));
               i++;
