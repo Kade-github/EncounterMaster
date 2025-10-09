@@ -7,7 +7,7 @@
 #include "imguifilediag/ImGuiFileDialog.h"
 
 #ifndef VERSION
-#define VERSION "Version 1.0.1"
+#define VERSION "Version 1.0.2"
 #endif
 
 #include <regex>
@@ -211,7 +211,7 @@ void menuDraw(ToolState* state) {
     state->creature_selected_index = -1;
     // Filter creatures based on search
     state->filtered_creatures.clear();
-    for (const auto& creature : state->creatures) {
+    for (auto& creature : state->creatures) {
       if (!creature.get_name().has_value()) continue;
       // Regex search, case insensitive
 
@@ -221,6 +221,12 @@ void menuDraw(ToolState* state) {
               creature.get_name().value() + " (" + creature.original_list + ")",
               filter_regex)) {
         state->filtered_creatures.push_back(creature);
+      }
+      else if (creature.get_creature_type().has_value()) {
+        std::string type_str = creature.type_to_string();
+        if (std::regex_search(type_str, filter_regex)) {
+          state->filtered_creatures.push_back(creature);
+        }
       }
     }
     if (state->filtered_creatures.size() == state->creatures.size()) {
