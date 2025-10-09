@@ -429,6 +429,29 @@ class CreatureElement {
 
   int id = 0;
 
+  std::string type_to_string()
+  { 
+    std::string type = "";
+    switch (creature_type.value_or(CreatureType::HUMANOID)) {
+      case CreatureType::ABERRATION: type = "Aberration"; break;
+      case CreatureType::BEAST: type = "Beast"; break;
+      case CreatureType::CELESTIAL: type = "Celestial"; break;
+      case CreatureType::CONSTRUCT: type = "Construct"; break;
+      case CreatureType::DRAGON: type = "Dragon"; break;
+      case CreatureType::ELEMENTAL: type = "Elemental"; break;
+      case CreatureType::FEY: type = "Fey"; break;
+      case CreatureType::FIEND: type = "Fiend"; break;
+      case CreatureType::GIANT: type = "Giant"; break;
+      case CreatureType::HUMANOID: type = "Humanoid"; break;
+      case CreatureType::MONSTROSITY: type = "Monstrosity"; break;
+      case CreatureType::OOZE: type = "Ooze"; break;
+      case CreatureType::PLANT: type = "Plant"; break;
+      case CreatureType::UNDEAD: type = "Undead"; break;
+      default: type = "Unknown"; break;
+    }
+    return type;
+  }
+
   std::string original_list = "";
 
   std::optional<std::string> get_name() const { return name; }

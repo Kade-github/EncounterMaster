@@ -20,6 +20,7 @@ void displayEncounterEdit(void* s)
   ImGui::InputText("Encounter Name", nameBuffer, sizeof(nameBuffer));
   state->current_encounter.set_name(std::string(nameBuffer));
 
+
   if (state->current_encounter.get_creatures().empty()) {
     ImGui::Text("No creatures in encounter.");
   } else {
@@ -29,8 +30,35 @@ void displayEncounterEdit(void* s)
           "Failed to parse any creature names.");
       return;
     }
+
+    // Encounter breakdown
+
+    /// How many creatures
+
+    std::map<std::string, int> creature_count;
+
+    for (const auto& creature : state->current_encounter.creature_objects) {
+      std::string name = creature.get_name().value().c_str();
+      creature_count[name]++;
+    }
+
+    ImGui::Text("Encounter Creatures:");
+
+    for (const auto& [name, count] : creature_count) {
+      ImGui::Text("%s x%d", name.c_str(), count);
+    }
+
+    ImGui::Separator();
+
     int i = 0;
     for (auto& creature : state->current_encounter.creature_objects) {
+      if (!ImGui::CollapsingHeader((creature.get_name().value() + " #" + std::to_string(i + 1) + " (" +
+                                       creature.original_list + ")##" +
+                                       std::to_string(i))
+                                          .c_str())) {
+        i++;
+        continue;
+      }
       ImGui::Text("%s (%s)", creature.get_name().value().c_str(),
                   creature.original_list.c_str());
       ImGui::SameLine();
@@ -65,11 +93,14 @@ void displayEncounterEdit(void* s)
 
       if (creature.get_skills().has_value()) {
         // Skills
+        bool shownSkill = false;
         for (const auto& skill : creature.get_skills().value_or(std::map<std::string, int>())) {
+          if (skill.second == 0) continue;
           ImGui::TextWrapped("%s: %d", skill.first.c_str(), skill.second);
           ImGui::Separator();
+          shownSkill = true;
         }
-        if (creature.get_skills()->empty()) {
+        if (creature.get_skills()->empty() || !shownSkill) {
           ImGui::Text("No skills available.");
           ImGui::Separator();
         }
