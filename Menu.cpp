@@ -7,7 +7,7 @@
 #include "imguifilediag/ImGuiFileDialog.h"
 
 #ifndef VERSION
-#define VERSION "Version 1.0.2"
+#define VERSION "Version 1.0.3"
 #endif
 
 #include <regex>
